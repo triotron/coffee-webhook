@@ -9,7 +9,7 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.reply_to(message,'Hello,' + message.from_user.first_name)
+    bot.reply_to(message,'Hello, ' + message.from_user.first_name)
     
 @bot.message_handler(func=lambda message:True,content_types=['text'])
 def echo(message):
