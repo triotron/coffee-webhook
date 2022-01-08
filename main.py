@@ -2,7 +2,7 @@ import os
 import telebot
 from flask import Flask, request
 
-TOKEN='5084358491:AAElx-kTIpc7CAy_ocdgP8eis6ogJ7toLCc'
+TOKEN='5063843698:AAESAuyfJ0dJ-Vnj0dCXY-R5iMgn0dpnQHQ'
 APP_URL=f'https://coffeefal.herokuapp.com/{TOKEN}'
 bot=telebot.TeleBot(TOKEN)
 server=Flask(__name__)
