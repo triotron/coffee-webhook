@@ -2,10 +2,10 @@ import os
 import telebot
 from flask import Flask, request
 
-TOKEN='5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
-APP_URL=f'https://coffeefal.herokuapp.com/{TOKEN}'
-bot=telebot.TeleBot(TOKEN)
-server=Flask(__name__)
+TOKEN = '5084358491:AAElx-kTIpc7CAy_ocdgP8eis6ogJ7toLCc'
+APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
+bot = telebot.TeleBot(TOKEN)
+server = Flask(__name__)
 
 @bot.message_handler(commends=['start'])
 def start_message(message):
@@ -17,8 +17,8 @@ def echo(message):
 
 @server.route('/'+TOKEN, methods=['POST'])
 def get_message():
-    json_string=request.get_data().decode('utf-8')
-    update=telebot.types.Update.de_json(json_string)
+    json_string = request.get_data().decode('utf-8')
+    update = telebot.types.Update.de_json(json_string)
     bot.process_new_updates([update])
     return '!',200
 
