@@ -7,7 +7,7 @@ APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
-@bot.message_handler(commends=['start'])
+@bot.message_handler(commands=['start'])
 def start_message(message):
     bot.reply_to(message,'Hello,' + message.from_user.first_name)
     
