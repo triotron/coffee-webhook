@@ -12,9 +12,9 @@ server = Flask(__name__)
 def start_message(message):
     bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name)
 
-@bot.message_handler(lambda message: 'привет' in message.text)
-def hihi(message):
-  bot.send_message(message.chat.id, 'привет')
+#@bot.message_handler(lambda message: 'привет' in message.text)
+#def hihi(message):
+#  bot.send_message(message.chat.id, 'привет!!!')
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
