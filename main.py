@@ -1,5 +1,6 @@
 import os
 import telebot
+from telebot import types
 from flask import Flask, request
 
 TOKEN = '5084358491:AAElx-kTIpc7CAy_ocdgP8eis6ogJ7toLCc'
@@ -10,15 +11,25 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name)
+    markup = types.InlineKeyboardMarkup(row_width=1)
+    item = types.InlineKeyboardButton('Пока', callback_data='bye')
+    markup.add(item)
+    bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name, reply_markup=markup)
 
-#@bot.message_handler(lambda message: 'привет' in message.text)
-#def hihi(message):
-#  bot.send_message(message.chat.id, 'привет!!!')
+@bat.callback_query_handler(func=lambda call:True)
+def callback(call):
+    if call.massage:
+        if call.data=='bye':
+            bot.send_message(message.chat.id, 'И тебе пока')
+
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
-  bot.send_message(message.chat.id, message.text)
+    if message.text.lower() == 'привет':
+        bot.send_message(message.chat.id, 'привет !!!')
+    else:
+        bot.send_message(message.chat.id, message.text)
+
 #bot.infinity_poling()
 
 
