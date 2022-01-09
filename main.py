@@ -2,8 +2,9 @@ import os
 import telebot
 from telebot import types
 from flask import Flask, request
+import aiogram
 
-TOKEN = '5084358491:AAElx-kTIpc7CAy_ocdgP8eis6ogJ7toLCc'
+TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
@@ -11,17 +12,7 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    markup = types.InlineKeyboardMarkup(row_width=1)
-    item = types.InlineKeyboardButton('Пока', callback_data='bye')
-    markup.add(item)
-    bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name, reply_markup=markup)
-
-@bat.callback_query_handler(func=lambda call:True)
-def callback(call):
-    if call.massage:
-        if call.data=='bye':
-            bot.send_message(message.chat.id, 'И тебе пока')
-
+    bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name)
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
