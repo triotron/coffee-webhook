@@ -2,7 +2,8 @@ import os
 import telebot
 from telebot import types
 from flask import Flask, request
-import aiogram
+
+
 
 TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
@@ -14,11 +15,10 @@ server = Flask(__name__)
 def start_message(message):
     bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name)
 
+
+
 @bot.message_handler(content_types=['text'])
 def start_message(message):
-    if message.text.lower() == 'привет':
-        bot.send_message(message.chat.id, 'привет !!!')
-    else:
         bot.send_message(message.chat.id, message.text)
 
 #bot.infinity_poling()
