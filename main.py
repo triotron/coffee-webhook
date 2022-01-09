@@ -10,16 +10,18 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, "Hello ,️ " + message.from_user.first_name)
+    bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name)
+
+@bot.message_handler(lambda message: 'привет' in message.text)
+def hihi(message):
+  bot.send_message(message.chat.id, 'привет')
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
   bot.send_message(message.chat.id, message.text)
 #bot.infinity_poling()
 
-@bot.message_handler(content='привет')
-def hihi(message):
-  bot.send_message(message.chat.id, 'привет')
+
 
 #@bot.message_handler(func=lambda message:True,content_types=['text'])
 #def echo(message):
