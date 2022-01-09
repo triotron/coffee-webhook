@@ -1,7 +1,6 @@
-
+# - *- coding: utf- 8 - *-
 import string, json
 from aiogram import types, Dispatcher
-from flask import Flask, request
 from create_bot import dp
 
 
