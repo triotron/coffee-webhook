@@ -19,6 +19,9 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
+    if message.text=='привет':
+        bot.send_message(message.chat.id, 'привет!!!')
+    else:
         bot.send_message(message.chat.id, message.text)
 
 #bot.infinity_poling()
