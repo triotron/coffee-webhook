@@ -2,20 +2,28 @@ import os
 import telebot
 from telebot import types
 from flask import Flask, request
-
-
+import sqlite3
 
 TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
-
 @bot.message_handler(commands=['start'])
 def start_message(message):
+    connect=sqlite3.connect('mess.db')
+    cursor=connect.cursor()
+    cursor.execute("""CREATE TABLE IF NOT EXIST log_id(name TEXT PRIMARY KEY, time TEXT, msgtext TEXT)""")
+    connect.commit()
+    user_name = [message.from_user.first_name, message.date, message.text]
+    cursor.execute("INSERT INTO log_id VALUES(?,?,?);", user_name)
+    connect.commit()
+
     bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name)
 
-
+@bot.message_handler(commands=['readsql'])
+def read_sql():
+    return cursor.execute('SELECT * FROM log_id').fetchall()
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
@@ -24,9 +32,8 @@ def start_message(message):
     else:
         bot.send_message(message.chat.id, message.text)
 
+
 #bot.infinity_poling()
-
-
 
 #@bot.message_handler(func=lambda message:True,content_types=['text'])
 #def echo(message):
