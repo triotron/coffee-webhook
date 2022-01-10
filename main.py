@@ -23,11 +23,11 @@ def start_message(message):
 
 @bot.message_handler(commands=['time'])
 def whats_the_time(message):
-    bot.reply_to(message, message.date)
+    bot.reply_to(message, tconv(message.date))
 
 @bot.message_handler(commands=['id'])
 def whats_id(message):
-    bot.reply_to(message, message.chat.id)
+    bot.reply_to(message, message.from_user.id)
 
 #@bot.message_handler(commands=['readsql'])
 #def read_sql():
