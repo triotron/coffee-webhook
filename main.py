@@ -11,19 +11,27 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    connect=sqlite3.connect('mess.db')
-    cursor=connect.cursor()
-    cursor.execute("""CREATE TABLE IF NOT EXIST log_id(name TEXT PRIMARY KEY, time TEXT, msgtext TEXT)""")
-    connect.commit()
-    user_name = [message.from_user.first_name, message.date, message.text]
-    cursor.execute("INSERT INTO log_id VALUES(?,?,?);", user_name)
-    connect.commit()
+#    connect=sqlite3.connect('mess.db')
+#    cursor=connect.cursor()
+#    cursor.execute("""CREATE TABLE IF NOT EXIST log_id(name TEXT PRIMARY KEY, time TEXT, msgtext TEXT)""")
+#    connect.commit()
+#    user_name = [message.from_user.first_name, message.date, message.text]
+#    cursor.execute("INSERT INTO log_id VALUES(?,?,?);", user_name)
+#    connect.commit()
 
     bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name)
 
-@bot.message_handler(commands=['readsql'])
-def read_sql():
-    return cursor.execute('SELECT * FROM log_id').fetchall()
+@bot.message_handler(commands=['time'])
+def whats_the_time(message):
+    bot.reply_to(message, message.date)
+
+@bot.message_handler(commands=['id'])
+def whats_id(message):
+    bot.reply_to(message, message.chat.id)
+
+#@bot.message_handler(commands=['readsql'])
+#def read_sql():
+#    return cursor.execute('SELECT * FROM log_id').fetchall()
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
