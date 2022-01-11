@@ -32,7 +32,7 @@ def answer(call):
         bot.send_message(message.chat.id, 'Хорошо')
     elif call.data == 'no':
         bot.send_message(message.chat.id, 'Плохо')
-
+@bot.answer_callback_query(callback_query_id=call.id)
 
 @bot.message_handler(commands=['time'])
 def whats_the_time(message):
