@@ -29,10 +29,16 @@ def start_message(message):
 @bot.callback_query_handler(func = lambda call:True)
 def answer(call):
     if call.data == 'yes':
-        bot.send_message(message.chat.id, 'Хорошо')
+        markup_reply=types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item_id=types.KeyboardButton('Мой ID')
+        item_username=types.KeyboardButton('Мой ник')
+
+        markup_reply.add(item_id, item_username)
+        bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
+
     elif call.data == 'no':
-        bot.send_message(message.chat.id, 'Плохо')
-@bot.answer_callback_query(callback_query_id=call.id)
+        bot.send_message(call.message.chat.id, 'Ну нет, так нет')
+
 
 @bot.message_handler(commands=['time'])
 def whats_the_time(message):
@@ -48,6 +54,13 @@ def whats_id(message):
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
+    if message.text == 'МОЙ ID':
+        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.id}')
+
+    elif message.text== 'МОЙ ник':
+        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.first_name} {message.from_user.last_name}')
+
+
     if message.text.lower()=='привет':
         bot.send_message(message.chat.id, 'привет!!!')
     else:
