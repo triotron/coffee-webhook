@@ -24,7 +24,7 @@ def start_message(message):
     item_no=types.InlineKeyboardButton(text='НЕТ', callback_data='no')
     markup_inline.add(item_yes,  item_no)
 
-    bot.send_message(message.chat.id, "Привет,️ " + message.from_user.first_name, reply_markup=markup_inline)
+    bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
 
 @bot.callback_query_handler(func = lambda call:True)
 def answer(call):
