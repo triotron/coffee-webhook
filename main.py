@@ -2,14 +2,14 @@ import os
 import telebot
 from telebot import types
 from flask import Flask, request
-import sqlite3
+#import sqlite3
 
 TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=['start', 'hello'])
 def start_message(message):
 #    connect=sqlite3.connect('mess.db')
 #    cursor=connect.cursor()
@@ -19,11 +19,16 @@ def start_message(message):
 #    cursor.execute("INSERT INTO log_id VALUES(?,?,?);", user_name)
 #    connect.commit()
 
-    bot.send_message(message.chat.id, "Hello,️ " + message.from_user.first_name)
+    markup_inline = types.InlineKeyboardMarkup()
+    item_yes= types.InlineKeyboardButton(text='ДА', callback_data='yes')
+    item_no=types.InlineKeyboardButton(text='НЕТ', callback_data='no')
+    markup_inline.add(item_yes,  item_no)
+
+    bot.send_message(message.chat.id, "Привет,️ " + message.from_user.first_name, reply_markup=markup_inline)
 
 @bot.message_handler(commands=['time'])
 def whats_the_time(message):
-    bot.reply_to(message, tconv(message.date))
+    bot.reply_to(message, message.date)
 
 @bot.message_handler(commands=['id'])
 def whats_id(message):
@@ -35,7 +40,7 @@ def whats_id(message):
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
-    if message.text=='привет':
+    if message.text.lower()=='привет':
         bot.send_message(message.chat.id, 'привет!!!')
     else:
         bot.send_message(message.chat.id, message.text)
