@@ -54,17 +54,17 @@ def whats_id(message):
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
-    if message.text == 'МОЙ ID':
+    if message.text == 'Мой ID':
         bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.id}')
 
-    elif message.text== 'МОЙ ник':
+    elif message.text == 'Мой ник':
         bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.first_name} {message.from_user.last_name}')
 
 
     if message.text.lower()=='привет':
         bot.send_message(message.chat.id, 'привет!!!')
-    else:
-        bot.send_message(message.chat.id, message.text)
+    #else:
+    #    bot.send_message(message.chat.id, message.text)
 
 
 #bot.infinity_poling()
