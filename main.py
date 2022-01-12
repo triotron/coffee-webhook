@@ -36,7 +36,7 @@ def answer(call):
         markup_reply.add(item_id, item_username)
         bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
         sleep(2)
-        bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="тру-ту-ту", reply_markup=markup_reply)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="тру-ту-ту", reply_markup=markup_reply)
 
 
 
