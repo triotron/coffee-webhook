@@ -37,7 +37,7 @@ def answer(call):
         bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
 
     elif call.data == 'no':
-        bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=ReplyKeyboardRemove())
+        bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
 
 
 
