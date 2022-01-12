@@ -34,11 +34,10 @@ def answer(call):
         item_username=types.KeyboardButton('Мой ник')
 
         markup_reply.add(item_id, item_username)
-        #bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
-        bot.answer_callback_query(call.message.chat.id, 'Нажмите на одну из кнопок',reply_markup=markup_reply)
+        bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
 
     elif call.data == 'no':
-        bot.answer_callback_query(call.message.chat.id, 'Ну нет, так нет', reply_markup=ReplyKeyboardRemove())
+        bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=ReplyKeyboardRemove())
 
 
 
