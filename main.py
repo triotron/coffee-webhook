@@ -35,9 +35,9 @@ def answer(call):
         item_username=types.KeyboardButton('Мой ник')
 
         markup_reply.add(item_id, item_username)
-        bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
-        #time.sleep(3)
-        #bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="тру-ту-ту")
+        bot.send_message(call.message.chat.id, text='Нажмите на одну из кнопок', reply_markup=markup_reply)
+        time.sleep(3)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="ЖМИ КНОПКУ",reply_markup=markup_reply)
 
         #bot.answer_inline_query(call.id)
 
