@@ -35,8 +35,8 @@ def answer(call):
 
         markup_reply.add(item_id, item_username)
         bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
-        sleep(2)
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="тру-ту-ту", reply_markup=markup_reply)
+        time.sleep(3)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="тру-ту-ту")
 
 
 
@@ -68,8 +68,8 @@ def start_message(message):
     elif message.text == "мат":
         bot.delete_message(message.chat.id, message.message_id)
     else:
-        bot.edit_message_text(message.chat.id, message.text + ' так сказал - ' + message.from_user.first_name)
-        #bot.send_message(message.chat.id, message.text)
+        #bot.edit_message_text(message.chat.id, message.text + ' так сказал - ' + message.from_user.first_name)
+        bot.send_message(message.chat.id, message.text)
 
 
 #bot.infinity_poling()
