@@ -35,8 +35,8 @@ def answer(call):
 
         markup_reply.add(item_id, item_username)
         bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
-        time.sleep(3)
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="тру-ту-ту")
+        #time.sleep(3)
+        #bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="тру-ту-ту")
 
 
 
@@ -47,7 +47,16 @@ def answer(call):
 
 @bot.message_handler(commands=['time'])
 def whats_the_time(message):
-    bot.reply_to(message, message.date)
+    bot.send_message(message.chat.id, '1')
+    time.sleep(2)
+    bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="2")
+    time.sleep(2)
+    bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="3")
+    time.sleep(2)
+    bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="4")
+    time.sleep(2)
+    bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="5")
+
 
 @bot.message_handler(commands=['id'])
 def whats_id(message):
