@@ -39,20 +39,20 @@ def answer(call):
         #time.sleep(3)
         #bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="тру-ту-ту")
 
-        bot.answer_inline_query(call.id)
+        #bot.answer_inline_query(call.id)
 
 
 
 
     elif call.data == 'no':
         bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
-        bot.answer_inline_query(call.id)
+        #bot.answer_inline_query(call.id)
 
 
 
 @bot.message_handler(commands=['time'])
 def whats_the_time(message):
-    bot.send_message(message.chat.id, '1')
+    bot.send_message(message.chat.id, text='1')
     time.sleep(2)
     bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="2")
     time.sleep(2)
