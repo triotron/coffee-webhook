@@ -26,7 +26,7 @@ def start_message(message):
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
 
-@bot.callback_query_handler(func = lambda call: types.CallbackQuery)
+@bot.callback_query_handler(func = lambda call:True)
 def answer(call):
     if call.data == 'yes':
         markup_reply=types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -34,10 +34,12 @@ def answer(call):
         item_username=types.KeyboardButton('Мой ник')
 
         markup_reply.add(item_id, item_username)
-        bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
+        #bot.send_message(call.message.chat.id, 'Нажмите на одну из кнопок', reply_markup=markup_reply)
+        bot.answer_callback_query(callback_query_id=call.id, text='Нажмите на одну из кнопок',reply_markup=markup_reply)
 
     elif call.data == 'no':
-        bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=ReplyKeyboardRemove())
+        bot.send_message(callback_query_id=call.id, text='Ну нет, так нет', reply_markup=ReplyKeyboardRemove())
+
 
 
 @bot.message_handler(commands=['time'])
