@@ -64,7 +64,8 @@ def start_message(message):
     elif message.text == "мат":
         bot.delete_message(message.chat.id, message.message_id)
     else:
-        bot.send_message(message.chat.id, message.text)
+        bot.edit_message_text(message.chat.id, message.text + ' так сказал - ' + message.from_user.first_name)
+        #bot.send_message(message.chat.id, message.text)
 
 
 #bot.infinity_poling()
