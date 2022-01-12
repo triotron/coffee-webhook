@@ -61,6 +61,8 @@ def start_message(message):
         bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.first_name} {message.from_user.last_name}')
     elif message.text.lower()=='привет':
         bot.send_message(message.chat.id, 'привет!!!')
+    elif message.text == "мат":
+        bot.delete_message(message.chat.id, message.message_id)
     else:
         bot.send_message(message.chat.id, message.text)
 
