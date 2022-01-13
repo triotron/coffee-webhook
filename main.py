@@ -3,6 +3,7 @@ import telebot
 from telebot import types
 from flask import Flask, request
 import time
+import string, json
 #import sqlite3
 
 TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
@@ -62,8 +63,12 @@ def start_message(message):
         bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.first_name} {message.from_user.last_name}')
     elif message.text.lower()=='привет':
         bot.send_message(message.chat.id, 'привет!!!')
-    elif message.text == "мат":
+    elif {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')}\
+        .intersection(set(json.load(open('cenz.json')))) != set():
+        bot.send_message(message.chat.id, 'Мат запрещен')
         bot.delete_message(message.chat.id, message.message_id)
+#    elif message.text == "мат" or message.text == "мат мат" :
+#        bot.delete_message(message.chat.id, message.message_id)
     else:
         #bot.edit_message_text(message.chat.id, message.text + ' так сказал - ' + message.from_user.first_name)
         bot.send_message(message.chat.id, message.text)
