@@ -35,30 +35,15 @@ def answer(call):
         item_username=types.KeyboardButton('Мой ник')
 
         markup_reply.add(item_id, item_username)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ну что же, начнем!!!!")
         bot.send_message(call.message.chat.id, text='Нажмите на одну из кнопок', reply_markup=markup_reply)
-        #time.sleep(3) #### ????
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="ЖМИ КНОПКУ",reply_markup=markup_reply)
 
         #bot.answer_inline_query(call.id)
 
     elif call.data == 'no':
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Эх!!!!")
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Но почему!!!!")
         bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
         #bot.answer_inline_query(call.id)
-
-
-
-@bot.message_handler(commands=['time'])
-def whats_the_time(message):
-    bot.send_message(message.chat.id, text='1')
-    time.sleep(2)
-    bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="2")
-    time.sleep(2)
-    bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="3")
-    time.sleep(2)
-    bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="4")
-    time.sleep(2)
-    bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="5")
 
 
 @bot.message_handler(commands=['id'])
