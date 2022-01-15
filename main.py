@@ -11,7 +11,7 @@ APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
-class FSMAdmin(StatesGroup):
+class FSMAdmin():
     photo = 1
     name = 2
     description = 3
