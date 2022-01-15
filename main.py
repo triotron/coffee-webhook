@@ -21,10 +21,10 @@ class FSMAdmin:
 @bot.message_handler(commands=['start', 'hello'])
 def start_message(message):
     #######################################
-    #connect = sqlite3.connect('coffeeFaL.db')
-    #cursor = connect.cursor()
-    #cursor.execute("CREATE TABLE IF NOT EXISTS menu (img TEXT, name TEXT PRIMARY KEY, description TEXT, price TEXT)")
-    #connect.commit()
+    connect = sqlite3.connect('coffeeFaL.db')
+    cursor = connect.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS menu (img TEXT, name TEXT PRIMARY KEY, description TEXT, price TEXT)")
+    connect.commit()
     ######################################
 
 
