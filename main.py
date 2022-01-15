@@ -4,22 +4,29 @@ from telebot import types
 from flask import Flask, request
 import time
 import string, json
-#import sqlite3
+import sqlite3
 
 TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
+class FSMAdmin(StatesGroup):
+    photo = 1
+    name = 2
+    description = 3
+    price = 4
+#State()
+
 @bot.message_handler(commands=['start', 'hello'])
 def start_message(message):
-#    connect=sqlite3.connect('mess.db')
-#    cursor=connect.cursor()
-#    cursor.execute("""CREATE TABLE IF NOT EXIST log_id(name TEXT PRIMARY KEY, time TEXT, msgtext TEXT)""")
-#    connect.commit()
-#    user_name = [message.from_user.first_name, message.date, message.text]
-#    cursor.execute("INSERT INTO log_id VALUES(?,?,?);", user_name)
-#    connect.commit()
+    #######################################
+    connect = sqlite3.connect('coffeeFaL.db')
+    cursor = connect.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS menu (img TEXT, name TEXT PRIMARY KEY, description TEXT, price TEXT)")
+    connect.commit()
+    ######################################
+
 
     markup_inline = types.InlineKeyboardMarkup()
     item_yes = types.InlineKeyboardButton(text='ДА', callback_data='yes')
@@ -27,6 +34,51 @@ def start_message(message):
     markup_inline.add(item_yes,  item_no)
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
+
+################################################################################
+@bot.message_handler(commands=['load'], state=None)
+def add_new(message):
+    FSMAdmin.photo.set()
+    bot.reply_to(message, 'Загрузить фото')
+
+@bot.message_handler(content_types=['photo'],state=FSMAdmin.photo)
+def load_photo(message):
+    async with state.proxy() as data:
+        data['photo'] = message.photo[0].file_id
+    FSMAdmin.next()
+    bot.reply_to(message, 'Теперь введите название')
+
+@bot.message_handler(state=FSMAdmin.name)
+def load_name(message):
+    async with state.proxy() as data:
+        data['name'] = message.text
+    FSMAdmin.next()
+    bot.reply_to(message, 'Теперь введите описание')
+
+@bot.message_handler(state=FSMAdmin.description)
+def load_description(message):
+    async with state.proxy() as data:
+        data['description']=message.text
+    FSMAdmin.next()
+    bot.reply_to(message, 'Теперь введите цену')
+
+@bot.message_handler(state=FSMAdmin.price)
+def load_description(message):
+    async with state.proxy() as data:
+        data['price']=message.text
+    FSMAdmin.next()
+    async with state.proxy() as data:
+        message.reply(str(data))
+
+    cursor.execute('INSERT INTO menu VALUES (?,?,?,?)', tuple(data.values()))
+    connect.commit()
+    state.finish()
+
+@bot.message_handler(commands=['menu'])
+def sql_read(message):
+    for ret in cursor.execute('SELECT * FROM menu').fetchall():
+        await bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание:{ret[2]}\nЦена:{ret[-1]}')
+######################################################################################
 
 @bot.callback_query_handler(func = lambda call:True)
 def answer(call):
@@ -36,21 +88,14 @@ def answer(call):
         item_username=types.KeyboardButton('Мой ник')
 
         markup_reply.add(item_id, item_username)
-        #bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ну что же, начнем!!!!")
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ну что же, начнем!!!!")
         bot.send_message(call.message.chat.id, text='Нажмите на одну из кнопок', reply_markup=markup_reply)
-
-        #bot.answer_inline_query(call.id)
-        bot.answer_callback_query(call.id)
+        bot.answer_callback_query(call.id) #убираем загрузку
 
     elif call.data == 'no':
-        #bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Но почему!!!!")
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Но почему!!!!")
         bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
-        #bot.answer_inline_query(call.id)
-        bot.answer_callback_query(call.id)
-
-    
-
-
+        bot.answer_callback_query(call.id)  #убираем загрузку
 
 
 @bot.message_handler(commands=['id'])
@@ -76,7 +121,6 @@ def start_message(message):
 #    elif message.text == "мат" or message.text == "мат мат" :
 #        bot.delete_message(message.chat.id, message.message_id)
     else:
-        #bot.edit_message_text(message.chat.id, message.text + ' так сказал - ' + message.from_user.first_name)
         bot.send_message(message.chat.id, message.text)
 
 
