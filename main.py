@@ -35,6 +35,51 @@ def start_message(message):
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
 
+
+
+@bot.callback_query_handler(func = lambda call:True)
+def answer(call):
+    if call.data == 'yes':
+        markup_reply=types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item_id=types.KeyboardButton('Мой ID')
+        item_username=types.KeyboardButton('Мой ник')
+
+        markup_reply.add(item_id, item_username)
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ну что же, начнем!!!!")
+        bot.send_message(call.message.chat.id, text='Нажмите на одну из кнопок', reply_markup=markup_reply)
+        bot.answer_callback_query(call.id) #убираем загрузку
+
+    elif call.data == 'no':
+        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Но почему!!!!")
+        bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
+        bot.answer_callback_query(call.id)  #убираем загрузку
+
+@bot.message_handler(commands=['id'])
+def whats_id(message):
+    bot.reply_to(message, message.from_user.id)
+
+#@bot.message_handler(commands=['readsql'])
+#def read_sql():
+#    return cursor.execute('SELECT * FROM log_id').fetchall()
+
+@bot.message_handler(content_types=['text'])
+def start_message(message):
+    if message.text == 'Мой ID':
+        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.id}')
+    elif message.text == 'Мой ник':
+        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.first_name} {message.from_user.last_name}')
+    elif message.text.lower()=='привет':
+        bot.send_message(message.chat.id, 'привет!!!')
+    elif {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')}\
+        .intersection(set(json.load(open('cenz.json')))) != set():
+        bot.send_message(message.chat.id, 'Мат запрещен')
+        bot.delete_message(message.chat.id, message.message_id)
+#    elif message.text == "мат" or message.text == "мат мат" :
+#        bot.delete_message(message.chat.id, message.message_id)
+    else:
+        bot.send_message(message.chat.id, message.text)
+
+
 ################################################################################
 @bot.message_handler(commands=['load'], state=None)
 def add_new(message):
@@ -80,48 +125,6 @@ def sql_read(message):
         await bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание:{ret[2]}\nЦена:{ret[-1]}')
 ######################################################################################
 
-@bot.callback_query_handler(func = lambda call:True)
-def answer(call):
-    if call.data == 'yes':
-        markup_reply=types.ReplyKeyboardMarkup(resize_keyboard=True)
-        item_id=types.KeyboardButton('Мой ID')
-        item_username=types.KeyboardButton('Мой ник')
-
-        markup_reply.add(item_id, item_username)
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Ну что же, начнем!!!!")
-        bot.send_message(call.message.chat.id, text='Нажмите на одну из кнопок', reply_markup=markup_reply)
-        bot.answer_callback_query(call.id) #убираем загрузку
-
-    elif call.data == 'no':
-        bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Но почему!!!!")
-        bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
-        bot.answer_callback_query(call.id)  #убираем загрузку
-
-
-@bot.message_handler(commands=['id'])
-def whats_id(message):
-    bot.reply_to(message, message.from_user.id)
-
-#@bot.message_handler(commands=['readsql'])
-#def read_sql():
-#    return cursor.execute('SELECT * FROM log_id').fetchall()
-
-@bot.message_handler(content_types=['text'])
-def start_message(message):
-    if message.text == 'Мой ID':
-        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.id}')
-    elif message.text == 'Мой ник':
-        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.first_name} {message.from_user.last_name}')
-    elif message.text.lower()=='привет':
-        bot.send_message(message.chat.id, 'привет!!!')
-    elif {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')}\
-        .intersection(set(json.load(open('cenz.json')))) != set():
-        bot.send_message(message.chat.id, 'Мат запрещен')
-        bot.delete_message(message.chat.id, message.message_id)
-#    elif message.text == "мат" or message.text == "мат мат" :
-#        bot.delete_message(message.chat.id, message.message_id)
-    else:
-        bot.send_message(message.chat.id, message.text)
 
 
 #bot.infinity_poling()
