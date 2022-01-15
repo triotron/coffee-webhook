@@ -22,8 +22,8 @@ def start_message(message):
 #    connect.commit()
 
     markup_inline = types.InlineKeyboardMarkup()
-    item_yes= types.InlineKeyboardButton(text='ДА', callback_data='yes')
-    item_no=types.InlineKeyboardButton(text='НЕТ', callback_data='no')
+    item_yes = types.InlineKeyboardButton(text='ДА', callback_data='yes')
+    item_no = types.InlineKeyboardButton(text='НЕТ', callback_data='no')
     markup_inline.add(item_yes,  item_no)
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
@@ -45,6 +45,10 @@ def answer(call):
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Но почему!!!!")
         bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
         #bot.answer_inline_query(call.id)
+
+    bot.answer_inline_query(call.id)
+
+
 
 
 @bot.message_handler(commands=['id'])
@@ -96,4 +100,4 @@ def webhook():
     return '!', 200
 
 if __name__ == '__main__':
-    server.run(host='0.0.0.0',port=int(os.environ.get('PORT', 5000)))
+    server.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
