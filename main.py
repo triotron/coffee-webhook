@@ -21,10 +21,10 @@ class FSMAdmin:
 @bot.message_handler(commands=['start', 'hello'])
 def start_message(message):
     #######################################
-    connect = sqlite3.connect('coffeeFaL.db')
-    cursor = connect.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS menu (img TEXT, name TEXT PRIMARY KEY, description TEXT, price TEXT)")
-    connect.commit()
+    #connect = sqlite3.connect('coffeeFaL.db')
+    #cursor = connect.cursor()
+    #cursor.execute("CREATE TABLE IF NOT EXISTS menu (img TEXT, name TEXT PRIMARY KEY, description TEXT, price TEXT)")
+    #connect.commit()
     ######################################
 
 
@@ -81,48 +81,48 @@ def start_message(message):
 
 
 ################################################################################
-@bot.message_handler(commands=['load'], state=None)
-def add_new(message):
-    FSMAdmin.photo.set()
-    bot.reply_to(message, 'Загрузить фото')
+#@bot.message_handler(commands=['load'], state=None)
+#def add_new(message):
+#    FSMAdmin.photo.set()
+#    bot.reply_to(message, 'Загрузить фото')
 
-@bot.message_handler(content_types=['photo'],state=FSMAdmin.photo)
-def load_photo(message):
-    async with state.proxy() as data:
-        data['photo'] = message.photo[0].file_id
-    FSMAdmin.next()
-    bot.reply_to(message, 'Теперь введите название')
+#@bot.message_handler(content_types=['photo'],state=FSMAdmin.photo)
+#def load_photo(message):
+#    async with state.proxy() as data:
+#        data['photo'] = message.photo[0].file_id
+#    FSMAdmin.next()
+#    bot.reply_to(message, 'Теперь введите название')
 
-@bot.message_handler(state=FSMAdmin.name)
-def load_name(message):
-    async with state.proxy() as data:
-        data['name'] = message.text
-    FSMAdmin.next()
-    bot.reply_to(message, 'Теперь введите описание')
+#@bot.message_handler(state=FSMAdmin.name)
+#def load_name(message):
+#    async with state.proxy() as data:
+#        data['name'] = message.text
+#    FSMAdmin.next()
+#    bot.reply_to(message, 'Теперь введите описание')
 
-@bot.message_handler(state=FSMAdmin.description)
-def load_description(message):
-    async with state.proxy() as data:
-        data['description']=message.text
-    FSMAdmin.next()
-    bot.reply_to(message, 'Теперь введите цену')
+#@bot.message_handler(state=FSMAdmin.description)
+#def load_description(message):
+#    async with state.proxy() as data:
+#        data['description']=message.text
+#    FSMAdmin.next()
+#    bot.reply_to(message, 'Теперь введите цену')
 
-@bot.message_handler(state=FSMAdmin.price)
-def load_description(message):
-    async with state.proxy() as data:
-        data['price']=message.text
-    FSMAdmin.next()
-    async with state.proxy() as data:
-        message.reply(str(data))
+#@bot.message_handler(state=FSMAdmin.price)
+#def load_description(message):
+#    async with state.proxy() as data:
+#        data['price']=message.text
+#    FSMAdmin.next()
+#    async with state.proxy() as data:
+#        message.reply(str(data))
 
-    cursor.execute('INSERT INTO menu VALUES (?,?,?,?)', tuple(data.values()))
-    connect.commit()
-    state.finish()
+#    cursor.execute('INSERT INTO menu VALUES (?,?,?,?)', tuple(data.values()))
+#    connect.commit()
+#    state.finish()
 
-@bot.message_handler(commands=['menu'])
-def sql_read(message):
-    for ret in cursor.execute('SELECT * FROM menu').fetchall():
-        await bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание:{ret[2]}\nЦена:{ret[-1]}')
+#@bot.message_handler(commands=['menu'])
+#def sql_read(message):
+#    for ret in cursor.execute('SELECT * FROM menu').fetchall():
+#        await bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание:{ret[2]}\nЦена:{ret[-1]}')
 ######################################################################################
 
 
