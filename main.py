@@ -46,7 +46,7 @@ def answer(call):
         bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
         #bot.answer_inline_query(call.id)
 
-    bot.answer_inline_query(call.id)
+    bot.answer_inline_query(call.id, text='Ответ выбран')
 
 
 
