@@ -62,24 +62,6 @@ def whats_id(message):
 #def read_sql():
 #    return cursor.execute('SELECT * FROM log_id').fetchall()
 
-@bot.message_handler(content_types=['text'])
-def start_message(message):
-    if message.text == 'Мой ID':
-        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.id}')
-    elif message.text == 'Мой ник':
-        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.first_name} {message.from_user.last_name}')
-    elif message.text.lower()=='привет':
-        bot.send_message(message.chat.id, 'привет!!!')
-    elif {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')}\
-        .intersection(set(json.load(open('cenz.json')))) != set():
-        bot.send_message(message.chat.id, 'Мат запрещен')
-        bot.delete_message(message.chat.id, message.message_id)
-#    elif message.text == "мат" or message.text == "мат мат" :
-#        bot.delete_message(message.chat.id, message.message_id)
-    else:
-        bot.send_message(message.chat.id, message.text)
-
-
 ################################################################################
 @bot.message_handler(commands=['load'])
 def add_new(message):
@@ -126,6 +108,23 @@ def sql_read(message):
     for ret in cursor.execute('SELECT * FROM menu').fetchall():
         bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание:{ret[2]}\nЦена:{ret[-1]}')
 ######################################################################################
+
+@bot.message_handler(content_types=['text'])
+def start_message(message):
+    if message.text == 'Мой ID':
+        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.id}')
+    elif message.text == 'Мой ник':
+        bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.first_name} {message.from_user.last_name}')
+    elif message.text.lower()=='привет':
+        bot.send_message(message.chat.id, 'привет!!!')
+    elif {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')}\
+        .intersection(set(json.load(open('cenz.json')))) != set():
+        bot.send_message(message.chat.id, 'Мат запрещен')
+        bot.delete_message(message.chat.id, message.message_id)
+#    elif message.text == "мат" or message.text == "мат мат" :
+#        bot.delete_message(message.chat.id, message.message_id)
+    else:
+        bot.send_message(message.chat.id, message.text)
 
 
 
