@@ -12,10 +12,10 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
 class FSMAdmin:
-    photo
-    name
-    description
-    price
+    photo = 1
+    name = 2
+    description = 3
+    price = 4
 #State()
 
 @bot.message_handler(commands=['start', 'hello'])
@@ -78,8 +78,7 @@ def load_photo(message):
     bot.send_message(message.chat.id, f'Теперь введите название')
     bot.set_state(message.chat.id, FSMAdmin.name)
     with bot.retrieve_data(message.from_user.id) as data:
-        data['photo'] = message.text
-    #message.photo[0].file_id
+        data['photo'] = message.photo[0].file_id
 
 @bot.message_handler(state=FSMAdmin.name)
 def load_name(message):
