@@ -124,7 +124,7 @@ def load_price(message):
 @bot.message_handler(commands=['menu'])
 def sql_read(message):
     for ret in cursor.execute('SELECT * FROM menu').fetchall():
-        await bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание:{ret[2]}\nЦена:{ret[-1]}')
+        bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание:{ret[2]}\nЦена:{ret[-1]}')
 ######################################################################################
 
 
