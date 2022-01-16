@@ -73,7 +73,7 @@ def any_state(message):
     bot.send_message(message.chat.id, "Your state was cancelled.")
     bot.delete_state(message.from_user.id)
 
-@bot.message_handler(state=FSMAdmin.photo, is_image=True)
+@bot.message_handler(state=FSMAdmin.photo)
 def load_photo(message):
     bot.send_message(message.chat.id, f'Теперь введите название')
     bot.set_state(message.chat.id, FSMAdmin.name)
