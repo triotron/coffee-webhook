@@ -12,10 +12,10 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
 class FSMAdmin:
-    photo = 1
-    name = 2
-    description = 3
-    price = 4
+    photo
+    name
+    description
+    price
 #State()
 
 @bot.message_handler(commands=['start', 'hello'])
