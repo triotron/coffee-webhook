@@ -4,34 +4,38 @@ from telebot import types, custom_filters
 from flask import Flask, request
 import time
 import string, json
-import sqlite3
+import logging
+import psycopg2
+#import sqlite3
 
 TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
+DB_URI ='4cd378ff533f757d8cec6810422ba6f29093418abd717d1bf85ff2e114985764'
 bot = telebot.TeleBot(TOKEN)
+logger = telebot.logger
+logger.setlevel(logging.DEBUG)
+
+db_connection = psycopg2.connect(DB_URI, sslmode="require")
+db_object = db_connection.cursor()
+
 server = Flask(__name__)
 
-class FSMAdmin:
-    photo = 1
-    name = 2
-    description = 3
-    price = 4
-#State()
 
 @bot.message_handler(commands=['start', 'hello'])
 def start_message(message):
-    #######################################
-    connect = sqlite3.connect('coffeeFaL.db')
-    cursor = connect.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS menu (img TEXT, name TEXT PRIMARY KEY, description TEXT, price TEXT)")
-    connect.commit()
-    ######################################
-
+    id = message.from_user.id
 
     markup_inline = types.InlineKeyboardMarkup()
     item_yes = types.InlineKeyboardButton(text='ДА', callback_data='yes')
     item_no = types.InlineKeyboardButton(text='НЕТ', callback_data='no')
     markup_inline.add(item_yes,  item_no)
+
+    db_object.execute(f'SELECT id FROM users WHERE id={id}')
+    result = db_object.fetchone()
+
+    if not result:
+        db_object.execute('INSERT INTO users(id, username, message) VALUES(%s,%s,%s)'), (id, username, 0)
+        db_connection.commit()
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
 
@@ -61,67 +65,6 @@ def whats_id(message):
 #@bot.message_handler(commands=['readsql'])
 #def read_sql():
 #    return cursor.execute('SELECT * FROM log_id').fetchall()
-
-################################################################################
-@bot.message_handler(commands=['load'])
-def add_new(message):
-    bot.set_state(message.from_user.id, FSMAdmin.photo)
-    bot.send_message(message.chat.id, 'Загрузить фото')
-
-@bot.message_handler(state="*", commands=['cancel'])
-def any_state(message):
-    bot.send_message(message.chat.id, "Your state was cancelled.")
-    bot.delete_state(message.from_user.id)
-
-@bot.message_handler(state=FSMAdmin.photo)
-def load_photo(message):
-    bot.send_message(message.chat.id, f'Теперь введите название')
-    bot.set_state(message.chat.id, FSMAdmin.name)
-    with bot.retrieve_data(message.from_user.id) as data:
-        data['photo'] = message.photo[0].file_id
-
-@bot.message_handler(state=FSMAdmin.name)
-def load_name(message):
-    bot.send_message(message.chat.id, f'Теперь введите описание')
-    bot.set_state(message.chat.id, FSMAdmin.description)
-    with bot.retrieve_data(message.from_user.id) as data:
-        data['name'] = message.text
-
-@bot.message_handler(state=FSMAdmin.description)
-def load_description(message):
-    bot.send_message(message.chat.id, f'Теперь введите цену')
-    bot.set_state(message.chat.id, FSMAdmin.price)
-    with bot.retrieve_data(message.from_user.id) as data:
-        data['description'] = message.text
-
-@bot.message_handler(state=FSMAdmin.price, is_digit=True)
-def load_price(message):
-    bot.send_message(message.chat.id, f'Все данные внесены')
-    with bot.retrieve_data(message.from_user.id) as data:
-        data['price'] = message.text
-    with bot.retrieve_data(message.from_user.id) as data:
-        bot.send_message(message.chat.id,
-                         "Ready, take a look:\n<b>photo: {photo}\nname: {name}\ndescription: {description}\nprice: {price}</b>".format(
-                             photo=data['photo'], name=data['name'], description=data['description'], price=['price']), parse_mode="html")
-
-    bot.add_custom_filter(custom_filters.StateFilter(bot))
-    bot.add_custom_filter(custom_filters.IsDigitFilter())
-    bot.enable_saving_states()
-
-
-    cursor.execute('INSERT INTO menu VALUES (?,?,?,?)', tuple(data.values()))
-    connect.commit()
-    state.finish()
-
-    bot.add_custom_filter(custom_filters.StateFilter(bot))
-    bot.add_custom_filter(custom_filters.IsDigitFilter())
-
-
-@bot.message_handler(commands=['menu'])
-def sql_read(message):
-    for ret in cursor.execute('SELECT * FROM menu').fetchall():
-        bot.send_photo(message.from_user.id, ret[0], f'{ret[1]}\nОписание:{ret[2]}\nЦена:{ret[-1]}')
-######################################################################################
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
