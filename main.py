@@ -4,7 +4,7 @@ from telebot import types, custom_filters
 from flask import Flask, request
 import time
 import string, json
-import logging
+#import logging
 import psycopg2
 
 
@@ -12,8 +12,8 @@ TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
 DB_URI ='4cd378ff533f757d8cec6810422ba6f29093418abd717d1bf85ff2e114985764'
 bot = telebot.TeleBot(TOKEN)
-logger = telebot.logger
-logger.setlevel(logging.DEBUG)
+#logger = telebot.logger
+#logger.setlevel(logging.DEBUG)
 
 #db_connection = psycopg2.connect(DB_URI, sslmode="require")
 #db_object = db_connection.cursor()
