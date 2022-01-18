@@ -34,7 +34,7 @@ def start_message(message):
     result = db_object.fetchone()
 
     if not result:
-        db_object.execute('INSERT INTO users(id, username, message) VALUES(%s,%s,%s)'), (id, username, 0)
+        db_object.execute("INSERT INTO users(id, username, messages) VALUES(%s,%s,%s)"), (id, username, 0)
         db_connection.commit()
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
