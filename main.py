@@ -25,6 +25,7 @@ server = Flask(__name__)
 def start_message(message):
     user_id = message.from_user.id
     username = str(message.from_user.first_name) + " " + str(message.from_user.last_name)
+    print(username)
 
     markup_inline = types.InlineKeyboardMarkup()
     item_yes = types.InlineKeyboardButton(text='ДА', callback_data='yes')
