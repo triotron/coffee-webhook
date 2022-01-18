@@ -23,18 +23,19 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start', 'hello'])
 def start_message(message):
-    id = message.from_user.id
+    user_id = message.from_user.id
+    username = message.from_user.username
 
     markup_inline = types.InlineKeyboardMarkup()
     item_yes = types.InlineKeyboardButton(text='ДА', callback_data='yes')
     item_no = types.InlineKeyboardButton(text='НЕТ', callback_data='no')
     markup_inline.add(item_yes,  item_no)
 
-    db_object.execute(f'SELECT id FROM users WHERE id={id}')
+    db_object.execute(f"SELECT id FROM users WHERE id = {user_id}")
     result = db_object.fetchone()
 
     if not result:
-        db_object.execute("INSERT INTO users(id, username, messages) VALUES(%s,%s,%s)", (id, username, 0))
+        db_object.execute("INSERT INTO users(id, username, messages) VALUES (%s, %s, %s)", (user_id, username, 0))
         db_connection.commit()
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
