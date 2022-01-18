@@ -10,7 +10,7 @@ import psycopg2
 
 TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
-DB_URI ='4cd378ff533f757d8cec6810422ba6f29093418abd717d1bf85ff2e114985764'
+DB_URI ='postgresql://ec2-63-33-239-176.eu-west-1.compute.amazonaws.com:5432/dd7jqblphtggds'
 bot = telebot.TeleBot(TOKEN)
 #logger = telebot.logger
 #logger.setlevel(logging.DEBUG)
