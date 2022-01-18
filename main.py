@@ -15,8 +15,8 @@ bot = telebot.TeleBot(TOKEN)
 #logger = telebot.logger
 #logger.setlevel(logging.DEBUG)
 
-#db_connection = psycopg2.connect(DB_URI, sslmode="require")
-#db_object = db_connection.cursor()
+db_connection = psycopg2.connect(DB_URI, sslmode="require")
+db_object = db_connection.cursor()
 
 server = Flask(__name__)
 
@@ -30,12 +30,12 @@ def start_message(message):
     item_no = types.InlineKeyboardButton(text='НЕТ', callback_data='no')
     markup_inline.add(item_yes,  item_no)
 
-    #db_object.execute(f'SELECT id FROM users WHERE id={id}')
-    #result = db_object.fetchone()
+    db_object.execute(f'SELECT id FROM users WHERE id={id}')
+    result = db_object.fetchone()
 
-    #if not result:
-    #    db_object.execute('INSERT INTO users(id, username, message) VALUES(%s,%s,%s)'), (id, username, 0)
-    #    db_connection.commit()
+    if not result:
+        db_object.execute('INSERT INTO users(id, username, message) VALUES(%s,%s,%s)'), (id, username, 0)
+        db_connection.commit()
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
 
