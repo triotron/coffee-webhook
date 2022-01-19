@@ -59,7 +59,10 @@ def answer(call):
         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Но почему!!!!")
         bot.send_message(call.message.chat.id, 'Ну нет, так нет', reply_markup=telebot.types.ReplyKeyboardRemove())
         bot.answer_callback_query(call.id)  #убираем загрузку
-     #################################
+
+
+    user_id = message.from_user.id
+    username = message.from_user.first_name
     db_object.execute("INSERT INTO users(id, username, time, messages) VALUES (%s, %s, %s, %s)", (user_id, username, datetime.datetime.now(), message.text))
     db_connection.commit()
 
@@ -87,7 +90,9 @@ def start_message(message):
 #        bot.delete_message(message.chat.id, message.message_id)
     else:
         bot.send_message(message.chat.id, message.text)
-    ######################################
+
+    user_id = message.from_user.id
+    username = message.from_user.first_name
     db_object.execute("INSERT INTO users(id, username, time, messages) VALUES (%s, %s, %s, %s)", (user_id, username, datetime.datetime.now(), message.text))
     db_connection.commit()
 
