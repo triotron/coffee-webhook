@@ -33,7 +33,7 @@ def start_message(message):
     item_no = types.InlineKeyboardButton(text='НЕТ', callback_data='no')
     markup_inline.add(item_yes,  item_no)
 
-    db_object.execute(f"SELECT id FROM users WHERE id = {user_id}")
+    #db_object.execute(f"SELECT id FROM users WHERE id = {user_id}")
     #result = db_object.fetchone()
 
    #if not result:
