@@ -33,10 +33,10 @@ def start_message(message):
     item_no = types.InlineKeyboardButton(text='НЕТ', callback_data='no')
     markup_inline.add(item_yes,  item_no)
 
-    #db_object.execute(f"SELECT id FROM users WHERE id = {user_id}")
-    #result = db_object.fetchone()
+    db_object.execute(f"SELECT id FROM users WHERE id = {user_id}")
+    result = db_object.fetchone()
 
-   #if not result:
+    #if not result:
     db_object.execute("INSERT INTO users(id, username, messages) VALUES (%s, %s, %s)", (user_id, username, message))
     db_connection.commit()
 
