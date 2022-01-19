@@ -2,7 +2,7 @@ import os
 import telebot
 from telebot import types, custom_filters
 from flask import Flask, request
-import time
+import time, datetime
 import string, json
 import logging
 import psycopg2
@@ -28,6 +28,7 @@ def start_message(message):
 
 
 
+
     markup_inline = types.InlineKeyboardMarkup()
     item_yes = types.InlineKeyboardButton(text='ДА', callback_data='yes')
     item_no = types.InlineKeyboardButton(text='НЕТ', callback_data='no')
@@ -38,7 +39,7 @@ def start_message(message):
 
 
     if not result:
-      db_object.execute("INSERT INTO users(id, username, messages) VALUES (%s, %s, %s)", (user_id, username, message))
+      db_object.execute("INSERT INTO users(id, username, messages) VALUES (%s, %s, %s)", (user_id, username, datetime.datetime.now()))
       db_connection.commit()
 
     bot.send_message(message.chat.id, f'Привет,️ {message.from_user.first_name} \nХочешь узнать о себе больше?', reply_markup=markup_inline)
