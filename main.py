@@ -67,9 +67,9 @@ def answer(call):
     db_object.execute("INSERT INTO users(id, username, time, messages) VALUES (%s, %s, %s, %s)", (user_id, username, datetime.datetime.now(), message.text))
     db_connection.commit()
 
-@bot.message_handler(commands=['id'])
+@bot.message_handler(commands=['about'])
 def whats_id(message):
-    bot.reply_to(message, message.from_user.id)
+    bot.reply_to(message, "Я чат-бот, мой создатель Фомичев Станислав")
 
 #@bot.message_handler(commands=['readsql'])
 #def read_sql():
@@ -87,10 +87,16 @@ def start_message(message):
         .intersection(set(json.load(open('cenz.json')))) != set():
         bot.send_message(message.chat.id, 'Мат запрещен')
         bot.delete_message(message.chat.id, message.message_id)
-#    elif message.text == "мат" or message.text == "мат мат" :
-#        bot.delete_message(message.chat.id, message.message_id)
+    elif {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')}\
+        .intersection(set(json.load(open('hello.json')))) != set():
+        bot.send_message(message.chat.id, 'привет')
     else:
-        bot.send_message(message.chat.id, message.text)
+        try:
+            bot.send_message(message.chat.id, message.math.text)
+        catch:
+            bot.send_message(message.chat.id, "команда не распознана")
+            
+            
 
     user_id = message.from_user.id
     username = message.from_user.first_name
