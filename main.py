@@ -15,7 +15,6 @@ logger = telebot.logger
 logger.setLevel(logging.DEBUG)
 
 
-
 db_connection = psycopg2.connect(DB_URI, sslmode="require")
 db_object = db_connection.cursor()
 
@@ -94,6 +93,12 @@ def start_message(message):
             bot.send_message(message.chat.id, message.math.text)
         catch:
             bot.send_message(message.chat.id, "команда не распознана")
+        finally:
+
+
+        
+
+
             
             
 
