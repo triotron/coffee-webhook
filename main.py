@@ -68,7 +68,7 @@ def answer(call):
 
 @bot.message_handler(commands=['about'])
 def whats_id(message):
-    bot.reply_to(message, "Я чат-бот, мой создатель Фомичев Станислав")
+    bot.reply_to(message, "Я чат-бот, мой создатель Фомичев Станислав!")
 
 #@bot.message_handler(commands=['readsql'])
 #def read_sql():
