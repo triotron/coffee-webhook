@@ -71,6 +71,7 @@ def whats_id(message):
 
 @bot.message_handler(content_types=['text'])
 def start_message(message):
+    message.text.replace('^', '**')
     if message.text == 'Мой ID':
         bot.send_message(message.chat.id, f'Ваш ID: {message.from_user.id}')
     elif message.text == 'Мой ник':
