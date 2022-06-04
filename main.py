@@ -60,11 +60,6 @@ def answer(call):
         bot.answer_callback_query(call.id)  #убираем загрузку
 
 
-    user_id = message.from_user.id
-    username = message.from_user.first_name
-    db_object.execute("INSERT INTO users(id, username, time, messages) VALUES (%s, %s, %s, %s)", (user_id, username, datetime.datetime.now(), message.text))
-    db_connection.commit()
-
 @bot.message_handler(commands=['about'])
 def whats_id(message):
     bot.reply_to(message, "Я чат-бот, мой создатель Фомичев Станислав!")
@@ -89,11 +84,7 @@ def start_message(message):
         .intersection(set(json.load(open('hello.json')))) != set():
         bot.send_message(message.chat.id, 'привет')
     else:
-        try:
             bot.send_message(message.chat.id, message.math.text)
-        catch:
-            bot.send_message(message.chat.id, "команда не распознана")
-        finally:
 
 
 
