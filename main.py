@@ -69,7 +69,7 @@ def answer(call):
 
 @bot.message_handler(commands=['about'])
 def whats_id(message):
-    bot.reply_to(message, "Я чат-бот, мой создатель Фомичев Станислав!")
+    bot.reply_to(message, "Created by Fomichev Stanislav")
 
 
 # @bot.message_handler(commands=['readsql'])
@@ -88,9 +88,6 @@ def start_message(message):
             .intersection(set(json.load(open('cenz.json')))) != set():
         bot.send_message(message.chat.id, 'Мат запрещен')
         bot.delete_message(message.chat.id, message.message_id)
-    elif {i.lower().translate(str.maketrans('', '', string.punctuation)) for i in message.text.split(' ')} \
-            .intersection(set(json.load(open('hello.json')))) != set():
-        bot.send_message(message.chat.id, 'привет')
     else:
         try:
             bot.send_message(message.chat.id, message.math.text)
