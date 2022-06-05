@@ -70,6 +70,12 @@ def whats_id(message):
 #def read_sql():
 #    return cursor.execute('SELECT * FROM log_id').fetchall()
 
+
+@bot.message_handler(content_types=['image', 'audio'])
+def imageaudio(message):
+    bot.send_message(message.chat.id, "фото или аудио")
+
+
 @bot.message_handler(content_types=['text'])
 def start_message(message):
     if message.text == 'Мой ID':
@@ -85,9 +91,9 @@ def start_message(message):
     elif message.text == "фото":
         img = open('photo.png', 'rb')
         bot.send_photo(message.chat.id, img)
-    elif message.photo is not None:
-        img = open('photo.png', 'rb')
-        bot.send_photo(message.chat.id, img)
+ #   elif message.photo is not None: # не работает
+ #       img = open('photo.png', 'rb')
+ #       bot.send_photo(message.chat.id, img)
     else:
         try:
             bot.send_message(message.chat.id, eval(message.text.replace('^', '**')))
