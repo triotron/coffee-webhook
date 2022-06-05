@@ -7,6 +7,7 @@ import string, json
 import logging
 import psycopg2
 
+
 TOKEN = '5057433410:AAEldf2_IXqPOeh32iPT3L0zHLmjO7Xw8aU'
 APP_URL = f'https://coffeefal.herokuapp.com/{TOKEN}'
 DB_URI ='postgres://mpwjzqjhqkrpbj:4cd378ff533f757d8cec6810422ba6f29093418abd717d1bf85ff2e114985764@ec2-63-33-239-176.eu-west-1.compute.amazonaws.com:5432/dd7jqblphtggds'
@@ -81,6 +82,8 @@ def start_message(message):
         .intersection(set(json.load(open('cenz.json')))) != set():
         bot.send_message(message.chat.id, 'Мат запрещен')
         bot.delete_message(message.chat.id, message.message_id)
+    elif message.text == "фото":
+        bot.send_photo(message.chat_id, photo=("photo.png"))
     else:
         try:
             bot.send_message(message.chat.id, eval(message.text.replace('^', '**')))
