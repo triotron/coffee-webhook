@@ -71,9 +71,9 @@ def whats_id(message):
 #    return cursor.execute('SELECT * FROM log_id').fetchall()
 
 
-@bot.message_handler(content_types=['image', 'audio'])
-def imageaudio(message):
-    bot.send_message(message.chat.id, "фото или аудио")
+@bot.message_handler(content_types=['photo'])
+def image(message):
+    bot.send_message(message.chat.id, "это фото")
 
 
 @bot.message_handler(content_types=['text'])
