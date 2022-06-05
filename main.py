@@ -83,7 +83,8 @@ def start_message(message):
         bot.send_message(message.chat.id, 'Мат запрещен')
         bot.delete_message(message.chat.id, message.message_id)
     elif message.text == "фото":
-        bot.send_photo(message.chat_id, photo=("photo.png"))
+        img = open('photo.png','rb')
+        bot.send_photo(message.chat.id, img)
     else:
         try:
             bot.send_message(message.chat.id, eval(message.text.replace('^', '**')))
